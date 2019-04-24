@@ -4,7 +4,7 @@ A discord bot for converting blocks in a minecraft schematica
 All commands are prefixed by an exclamation mark `!`.
 
 ## Building
-Building can be done easily with `mvn install`. Because I don't know why maven won't package JNBT with the jar, you'll have to drop JNBT binaries in yourself.
+Building can be done easily with `gradlew.bat build` or `./gradlew build`. Because I don't know why Gradle won't package JNBT with the jar, you'll have to drop JNBT binaries in yourself.
 
 ## Using
 The `!help` command:
