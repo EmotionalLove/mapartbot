@@ -16,7 +16,7 @@ public class RemoveCommand extends SimpleCommand {
     @Override
     public void onCommand() {
         if (this.getArguments() == null || this.getArguments().length != 1) {
-            MapArtBot.generate(DiscordListener.lastEvent.getChannel(), "Please specify a Replace Map to remove. (ex !open woolcarpet)", true).submit();
+            MapArtBot.generate(DiscordListener.lastEvent.getChannel(), "Please specify a Replace Map to remove. (ex !remove woolcarpet)", true).submit();
             return;
         }
         ReplaceGroup group = replaceMap.stream().filter(replaceGroup -> replaceGroup.shortName.equalsIgnoreCase(this.getArguments()[0])).findFirst().orElse(null);

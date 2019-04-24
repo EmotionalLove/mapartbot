@@ -20,15 +20,12 @@ public class Main {
             System.err.println("Discord token required as argument");
             return;
         }
-
-        MapArtBot bot = new MapArtBot();
-
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         jda = builder.setAutoReconnect(true).setToken(args[0]).buildBlocking();
         File tmp = new File("tmp");
         if (!tmp.isDirectory() || !tmp.exists()) tmp.mkdirs();
         jda.setEventManager(new AnnotatedEventManager());
-        jda.addEventListener(bot);
+        jda.addEventListener(new DiscordListener());
     }
 
 }
