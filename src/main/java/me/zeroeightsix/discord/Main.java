@@ -4,6 +4,7 @@ import me.zeroeightsix.discord.groups.ReplaceGroup;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.hooks.AnnotatedEventManager;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -16,7 +17,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Main {
 
-    static JDA jda;
+    public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         if (args.length == 0) {
@@ -30,7 +31,7 @@ public class Main {
         jda = builder.setAutoReconnect(true).setToken(args[0]).buildBlocking();
         File tmp = new File("tmp");
         if (!tmp.isDirectory() || !tmp.exists()) tmp.mkdirs();
-
+        jda.setEventManager(new AnnotatedEventManager());
         jda.addEventListener(bot);
     }
 
