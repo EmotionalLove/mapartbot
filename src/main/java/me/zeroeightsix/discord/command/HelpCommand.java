@@ -7,7 +7,7 @@ import me.zeroeightsix.discord.MapArtBot;
 public class HelpCommand extends SimpleCommand {
 
     public HelpCommand() {
-        super("open");
+        super("help");
     }
 
     @Override

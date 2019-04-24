@@ -10,7 +10,7 @@ import static me.zeroeightsix.discord.MapArtBot.replaceMap;
 public class RemoveCommand extends SimpleCommand {
 
     public RemoveCommand() {
-        super("open");
+        super("remove");
     }
 
     @Override

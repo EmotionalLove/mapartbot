@@ -94,9 +94,7 @@ public class MapArtBot extends ListenerAdapter {
                 files.add(f);
             }
         }
-
         content.append("\nAll attachments downloaded, processing and uploading. Please wait.");
-
         processSchematics(event, m, content, files);
     }
 

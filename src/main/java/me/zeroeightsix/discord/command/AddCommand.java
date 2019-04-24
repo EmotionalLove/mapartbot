@@ -23,7 +23,7 @@ public class AddCommand extends SimpleCommand {
             return;
         }
         HashMap<String, String> pairMap = new HashMap<>();
-        String message = DiscordListener.lastEvent.getMessage().getContentDisplay();
+        String message = DiscordListener.lastEvent.getMessage().getContentRaw();
         String[] partz = message.split("\n");
         for (String s : partz) {
             if (!s.contains("->")) return;
