@@ -26,6 +26,7 @@ public class Main {
         if (!tmp.isDirectory() || !tmp.exists()) tmp.mkdirs();
         jda.setEventManager(new AnnotatedEventManager());
         jda.addEventListener(new DiscordListener());
+        MapArtBot.start();
     }
 
 }

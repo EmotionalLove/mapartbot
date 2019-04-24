@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -37,7 +36,7 @@ public class MapArtBot extends ListenerAdapter {
     public static SimpleCommandProcessor commandProcessor = new SimpleCommandProcessor("!");
     public static ArrayList<ReplaceGroup> replaceMap = new ArrayList<>();
 
-    MapArtBot() {
+    public static void start() {
         new Thread(() -> {
             while (true) {
                 try {
@@ -55,6 +54,12 @@ public class MapArtBot extends ListenerAdapter {
         replaceMap.addAll(DefaultGroups.defaults);
     }
 
+    /**
+     * Processes files and then processes them based on what they are
+     *
+     * @param event
+     * @param attachments
+     */
     public static void processFiles(GuildMessageReceivedEvent event, List<Message.Attachment> attachments) {
         Message m;
         StringBuilder content = new StringBuilder();
@@ -95,6 +100,13 @@ public class MapArtBot extends ListenerAdapter {
         processSchematics(event, m, content, files);
     }
 
+    /**
+     * Processes schematic files and applies replacements to them
+     * @param event
+     * @param m
+     * @param content
+     * @param files
+     */
     public static void processSchematics(GuildMessageReceivedEvent event, Message m, StringBuilder content, List<File> files) {
         ArrayList<File> toList = new ArrayList<>();
         for (File from : files) {
@@ -142,6 +154,13 @@ public class MapArtBot extends ListenerAdapter {
     }
 
 
+    /**
+     * Converts an image to a schematic file, and then applies replacments
+     * @param event
+     * @param m
+     * @param builder
+     * @param file
+     */
     public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file) {
         queue.add(() -> {
             try {
@@ -184,7 +203,7 @@ public class MapArtBot extends ListenerAdapter {
         });
     }
 
-    @Deprecated
+/*    @Deprecated
     public static boolean processCommand(MessageReceivedEvent event, String message) {
         if (message.startsWith("!")) {
             message = message.substring(1);
@@ -297,7 +316,7 @@ public class MapArtBot extends ListenerAdapter {
             }
         }
         return false;
-    }
+    }*/
 
     public static String[][] toArray(Map<String, String> map) {
         String[][] array = new String[map.size()][2];
