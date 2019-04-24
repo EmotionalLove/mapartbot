@@ -4,6 +4,9 @@ import com.sasha.simplecmdsys.SimpleCommand;
 import me.zeroeightsix.discord.DiscordListener;
 import me.zeroeightsix.discord.MapArtBot;
 
+/**
+ * https://i.imgur.com/vCmrcPx.png
+ */
 public class FagCommand extends SimpleCommand {
 
     public FagCommand() {
