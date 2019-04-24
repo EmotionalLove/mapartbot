@@ -100,7 +100,7 @@ public class MapArtBot extends ListenerAdapter {
         for (File from : files) {
             String toN = from.getAbsolutePath();
             if (toN.endsWith(".schematic"))
-                toN = toN.substring(0,toN.length() - ".schematic".length()) + ".converted.schematic";
+                toN = toN.substring(0, toN.length() - ".schematic".length()) + ".converted.schematic";
             else
                 toN += ".converted";
 
@@ -141,12 +141,12 @@ public class MapArtBot extends ListenerAdapter {
         }
     }
 
-    
+
     public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file) {
         queue.add(() -> {
             try {
-                Class<?> converter = Class. forName("MapConverter");
-                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[] { new String[] { file.getAbsolutePath() } });
+                Class<?> converter = Class.forName("MapConverter");
+                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{new String[]{file.getAbsolutePath()}});
 
                 Message preview = event.getChannel().sendFile(new File("tmp/out/png/completeImage.png")).complete(true);
 
@@ -211,8 +211,7 @@ public class MapArtBot extends ListenerAdapter {
                         }
                         ReplaceGroup group = replaceMap.stream().filter(replaceGroup -> replaceGroup.shortName.equalsIgnoreCase(split[1])).findFirst().orElse(null);
                         if (group == null) response = "No group by that id found.";
-                        else
-                        {
+                        else {
                             for (String[] strings : group.map)
                                 response += strings[0] + " -> " + strings[1] + "\n";
                         }
@@ -277,7 +276,8 @@ public class MapArtBot extends ListenerAdapter {
                         }
                         final String groupName = event.getMember().getUser().getName();
                         final int[] a = new int[]{0};
-                        while (replaceMap.stream().anyMatch(replaceGroup -> replaceGroup.shortName.equalsIgnoreCase(groupName + a[0]))) a[0]++;
+                        while (replaceMap.stream().anyMatch(replaceGroup -> replaceGroup.shortName.equalsIgnoreCase(groupName + a[0])))
+                            a[0]++;
                         ReplaceGroup group1 = new ReplaceGroup("Custom group by " + event.getMember().getUser().getName(),
                                 toArray(stringStringHashMap),
                                 groupName + a[0]);
@@ -302,7 +302,7 @@ public class MapArtBot extends ListenerAdapter {
     public static String[][] toArray(Map<String, String> map) {
         String[][] array = new String[map.size()][2];
         int count = 0;
-        for(Map.Entry<String,String> entry : map.entrySet()){
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             array[count][0] = entry.getKey();
             array[count][1] = entry.getValue();
             count++;
@@ -316,6 +316,7 @@ public class MapArtBot extends ListenerAdapter {
         builder.setDescription(content);
         return builder.build();
     }
+
     public static MessageAction generate(TextChannel chan, String content, boolean fail) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(fail ? Color.RED : Color.GREEN);

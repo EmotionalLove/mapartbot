@@ -2,7 +2,10 @@ package me.zeroeightsix.discord;
 
 import org.jnbt.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -51,7 +54,7 @@ public class SchematicProcessor {
         nbt.close();
         fis.close();
 
-        schematic = new Schematic(width,height,length,blocks,data,entities,tileentities,materials);
+        schematic = new Schematic(width, height, length, blocks, data, entities, tileentities, materials);
 
         return this;
     }
@@ -59,14 +62,14 @@ public class SchematicProcessor {
     public SchematicProcessor replace() {
         for (int i = 0; i < schematic.blocks.length; i++) {
             int from_id = schematic.blocks[i] & 0xff;
-            String from = from_id + (schematic.data[i]!=0 ? (":" + (schematic.data[i]&0xff)) : "");
+            String from = from_id + (schematic.data[i] != 0 ? (":" + (schematic.data[i] & 0xff)) : "");
             String to = replaces.get(from);
             if (to != null) {
                 if (to.contains(":")) {
                     int[] con = Arrays.stream(to.split(":")).mapToInt(Integer::parseInt).toArray();
                     schematic.blocks[i] = (byte) con[0];
                     schematic.data[i] = (byte) con[1];
-                }else
+                } else
                     schematic.blocks[i] = (byte) (Integer.parseInt(replaces.get(from)));
             }
         }

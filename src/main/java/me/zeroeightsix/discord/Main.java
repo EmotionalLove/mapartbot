@@ -1,6 +1,5 @@
 package me.zeroeightsix.discord;
 
-import me.zeroeightsix.discord.groups.ReplaceGroup;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -8,9 +7,6 @@ import net.dv8tion.jda.core.hooks.AnnotatedEventManager;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by 086 on 15/01/2018.

@@ -3,9 +3,6 @@ package me.zeroeightsix.discord.command;
 import com.sasha.simplecmdsys.SimpleCommand;
 import me.zeroeightsix.discord.DiscordListener;
 import me.zeroeightsix.discord.MapArtBot;
-import me.zeroeightsix.discord.groups.ReplaceGroup;
-
-import static me.zeroeightsix.discord.MapArtBot.replaceMap;
 
 public class HelpCommand extends SimpleCommand {
 
