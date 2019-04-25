@@ -21,7 +21,6 @@ public class Main {
             System.err.println("Discord token required as argument");
             return;
         }
-        MapArtBot.commandProcessor.register(AddCommand.class);
         MapArtBot.commandProcessor.register(FagCommand.class);
         MapArtBot.commandProcessor.register(HelpCommand.class);
         MapArtBot.commandProcessor.register(MapCommand.class);
