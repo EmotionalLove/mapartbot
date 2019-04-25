@@ -87,8 +87,11 @@ public class MapArtBot extends ListenerAdapter {
                 return;
             }
 
+            String c = event.getMessage().getContentDisplay().toLowerCase();
             if (attachment.isImage()) {
-                processImage(event, m, content, f, event.getMessage().getContentDisplay().toLowerCase().contains("2d"));
+                processImage(event, m, content, f, c.contains("2d"),
+                        c.contains("nodither"),
+                        c.contains("bw"));
             } else {
                 files.add(f);
             }
@@ -160,17 +163,28 @@ public class MapArtBot extends ListenerAdapter {
      * @param builder
      * @param file
      */
-    public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file, boolean force2d) {
+    public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file, boolean force2d, boolean noDither, boolean bw) {
         queue.add(() -> {
             try {
                 Class<?> converter = Class.forName("MapConverter");
-                String[] args;
+                ArrayList<String> args = new ArrayList<>();
+                args.add(file.getAbsolutePath());
                 if (force2d) {
-                    args = new String[]{file.getAbsolutePath(), "--force2d"};
-                } else {
-                    args = new String[]{file.getAbsolutePath()};
+                    args.add("--force2d");
+                    builder.append("\nSchematic will be generated in 2d.");
+                    m.editMessage(generate(builder.toString(), false)).submit();
                 }
-                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{args});
+                if (noDither) {
+                    args.add("--nodither");
+                    builder.append("\nSchematic will be generated without dithering.");
+                    m.editMessage(generate(builder.toString(), false)).submit();
+                }
+                if (bw) {
+                    args.add("--greyscale");
+                    builder.append("\nSchematic will be generated in black and white.");
+                    m.editMessage(generate(builder.toString(), false)).submit();
+                }
+                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{args.toArray(new String[]{})});
 
                 Message preview = event.getChannel().sendFile(new File("tmp/out/png/completeImage.png")).complete(true);
 
@@ -184,7 +198,7 @@ public class MapArtBot extends ListenerAdapter {
 
                 List<File> files = Files.list(Paths.get("tmp/out/schematic")).map(Path::toFile).collect(Collectors.toList());
                 if (files.size() > 9) {
-                    builder.append("\nYour image is quite large and generated **" + files.size() + "** schematics.\nWould you like to proceed? **(yes/no)**");
+                    builder.append("\nYour image is quite large and generated **").append(files.size()).append("** schematics.\nWould you like to proceed? **(yes/no)**");
                     event.getMessage().getChannel().editMessageById(m.getId(), generate(builder.toString(), true)).queue();
 
                     responseMap.put(event.getMember(), messageReceivedEvent -> {
