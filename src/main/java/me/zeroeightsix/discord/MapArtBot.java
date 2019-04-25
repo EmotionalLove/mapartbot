@@ -88,8 +88,7 @@ public class MapArtBot extends ListenerAdapter {
             }
 
             if (attachment.isImage()) {
-                processImage(event, m, content, f);
-                continue;
+                processImage(event, m, content, f, event.getMessage().getContentDisplay().toLowerCase().contains("2d"));
             } else {
                 files.add(f);
             }
@@ -100,6 +99,7 @@ public class MapArtBot extends ListenerAdapter {
 
     /**
      * Processes schematic files and applies replacements to them
+     *
      * @param event
      * @param m
      * @param content
@@ -154,16 +154,23 @@ public class MapArtBot extends ListenerAdapter {
 
     /**
      * Converts an image to a schematic file, and then applies replacments
+     *
      * @param event
      * @param m
      * @param builder
      * @param file
      */
-    public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file) {
+    public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file, boolean force2d) {
         queue.add(() -> {
             try {
                 Class<?> converter = Class.forName("MapConverter");
-                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{new String[]{file.getAbsolutePath()}});
+                String[] args;
+                if (force2d) {
+                    args = new String[]{file.getAbsolutePath(), "--force2d"};
+                } else {
+                    args = new String[]{file.getAbsolutePath()};
+                }
+                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{args});
 
                 Message preview = event.getChannel().sendFile(new File("tmp/out/png/completeImage.png")).complete(true);
 
