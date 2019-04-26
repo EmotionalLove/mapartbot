@@ -3,6 +3,8 @@ package me.zeroeightsix.discord;
 import com.sasha.simplecmdsys.SimpleCommandProcessor;
 import me.zeroeightsix.discord.groups.DefaultGroups;
 import me.zeroeightsix.discord.groups.ReplaceGroup;
+import me.zeroeightsix.discord.schematic.MapConverter;
+import me.zeroeightsix.discord.schematic.SchematicProcessor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -16,7 +18,6 @@ import net.dv8tion.jda.core.requests.restaction.MessageAction;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -166,7 +167,7 @@ public class MapArtBot extends ListenerAdapter {
     public static void processImage(GuildMessageReceivedEvent event, Message m, StringBuilder builder, File file, boolean force2d, boolean noDither, boolean bw) {
         queue.add(() -> {
             try {
-                Class<?> converter = Class.forName("MapConverter");
+                MapConverter converter = new MapConverter();
                 ArrayList<String> args = new ArrayList<>();
                 args.add(file.getAbsolutePath());
                 if (force2d) {
@@ -184,7 +185,7 @@ public class MapArtBot extends ListenerAdapter {
                     builder.append("\nSchematic will be generated in black and white.");
                     m.editMessage(generate(builder.toString(), false)).submit();
                 }
-                converter.getDeclaredMethod("main", String[].class).invoke(null, new Object[]{args.toArray(new String[]{})});
+                converter.main(args.toArray(new String[]{}));
 
                 Message preview = event.getChannel().sendFile(new File("tmp/out/png/completeImage.png")).complete(true);
 
@@ -216,7 +217,7 @@ public class MapArtBot extends ListenerAdapter {
                     processSchematics(event, m, builder, files);
                     files.forEach(File::delete);
                 }
-            } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | IOException | RateLimitedException e) {
+            } catch (IOException | RateLimitedException e) {
                 e.printStackTrace();
             }
         });

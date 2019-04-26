@@ -1,4 +1,4 @@
-package me.zeroeightsix.discord;
+package me.zeroeightsix.discord.schematic;
 
 import org.jnbt.*;
 
